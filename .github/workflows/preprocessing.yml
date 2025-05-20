@@ -1,0 +1,40 @@
+name: CI/CD Pipeline for Automate_Auric.py
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.12'  # Pilih versi Python yang sesuai
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pandas # Pastikan Anda memiliki file requirements.txt yang mencakup dependensi
+
+    - name: Verify if CSV file exists
+      run: |
+        ls -l Eksperimen_SML_Auric/dataset_raw/StudentsPerformance_raw.csv
+        
+    - name: Run Automate_Auric.py
+      run: |
+        python Eksperimen_SML_Auric/preprocessing/Automate_Auric.py  # Jalankan file Python Anda
+        
+    - name: Commit updated dataset
+      run: |
+          git config --local user.email "rik_99@yahoo.com"
+          git config --local user.name "Auric"
+          git add Eksperimen_SML_Auric/preprocessing/dataset_preprocessed/*
+          git commit -m "Update hasil preprocessing otomatis" || echo "Tidak ada perubahan"
+          git push
