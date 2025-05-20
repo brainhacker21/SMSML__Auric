@@ -1,0 +1,5 @@
+github
+https://github.com/brainhacker21/Workflow-CI-Auric
+
+docker hub
+https://hub.docker.com/r/auric21/workflow-ci
